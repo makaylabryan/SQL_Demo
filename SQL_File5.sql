@@ -1,0 +1,50 @@
+/* joins: select all the computers from the products table:
+using the products table and the categories table, return the product name and the category name */
+Select Products.Name, Categories.Name
+FROM Products
+INNER JOIN Categories ON Categories.CategoryID = Products.CategoryID
+WHERE Categories.Name = 'Computers';
+ 
+/* joins: find all product names, product prices, and products ratings that have a rating of 5 */
+SELECT Products.Name, Products.Price, Reviews.Rating FROM PRODUCTS
+INNER JOIN Reviews ON Reviews.ProductID = PRODUCTS.ProductID
+WHERE Review.Rating = 5;
+ 
+/* joins: find the employee with the most total quantity sold.  use the sum() function and group by */
+SELECT Employees.FirstName, Employees.LastName, sum(Sales.Quantity) 
+From SALES
+INNER JOIN Employees ON Sales.EmployeeID = Employees.EmployeeID
+GROUP BY Employees.EmployeeID
+order by Total DESC;
+
+
+/* joins: find the name of the department, and the name of the category for Appliances and Games */
+SELECT Departments.Name, Categories.Name
+FROM Departments
+INNER JOIN Categories ON Categories.DepartmentID = Departments.DepartmentID
+WHERE Categories.Name = 'Appliances' OR Categories.Name = 'Games';
+
+/* joins: find the product name, total # sold, and total price sold,
+ for Eagles: Hotel California --You may need to use SUM() */
+SELECT Product.Name, Sum(Sales.Quantity) AS 'Total Sold', SUM(Sales.Quantity * Sales.PricePerUnit) AS 'Total Price Sold'
+FROM Products
+INNER JOIN Sales ON Products.ProductID = Sales.ProductID
+Where Products.ProductID = 97;
+
+/* joins: find Product name, reviewer name, rating, and comment on the Visio TV. (only return for the lowest rating!) */
+SELECT Product.Name, Reviews.Reviewer, Reviews.Rating, Reviews.Comment
+FROM Products
+INNER JOIN Reviews ON Reviews.ProductID = Products.ProductID
+WHERE Reviews.Rating = 1 AND Products.ProductID = 857;
+
+
+-- ------------------------------------------ Extra - May be difficult
+/* Your goal is to write a query that serves as an employee sales report.
+This query should return the employeeID, the employee's first and last name, the name of each product,
+ how many of that product they sold */
+SELECT Employees.EmployeeID, Employees.FirstName, Employees.LastName, Products.Name, SUM(Sales.Quantity)
+FROM Sales
+INNER JOIN Employees ON Sales.EmployeeID = Employees.EmployeeID
+INNER JOIN Products ON Sales.ProductID = Products.ProductID
+GROUP BY Employees.EmployeeID, Product.ProductID
+ORDER BY Employees.EmployeeID;
